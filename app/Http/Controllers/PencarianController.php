@@ -13,7 +13,7 @@ class PencarianController extends Controller
         // dd(request('search'));
         if ($request->has('search')) {
             $bukus = Buku::where('judul', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('tingkat', 'Like', '%' . $request->search . '%')->get();
+                ->orWhere('kode_buku', 'Like', '%' . $request->search . '%')->get();
         } else {
             $bukus = Buku::get();
         }

@@ -66,6 +66,13 @@
                                 <p>Data Anggota</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link {{ request()->is('') ? 'active' : '' }}"
+                                id="data-filter">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Data Rak</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item {{ request()->is('peminjaman', 'pengembalian') ? 'menu-open' : '' }}">

@@ -33,7 +33,10 @@ class DataExport implements FromView
                 ['tgl_pinjam', '<=', $this->akhir]
             ])->get();
 
-        $denda =Transaksi::pluck('denda');
+        $denda =Transaksi::where([
+            ['tgl_pinjam', '>=', $this->awal],
+            ['tgl_pinjam', '<=', $this->akhir]
+        ])->pluck('denda');
         $count=0;
         foreach($denda as $d){
             $count += $d;

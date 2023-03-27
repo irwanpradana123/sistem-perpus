@@ -45,7 +45,7 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ count($transaksi->where('status', 1)) }}</h3>
 
                             <p>Jumlah Peminjaman</p>
                         </div>
@@ -59,7 +59,7 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ count($transaksi->where('status', 2)) }}</h3>
 
                             <p>Jumlah Pengembalian</p>
                         </div>

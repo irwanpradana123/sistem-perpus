@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
+use App\Imports\SiswaImport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Anggota\AnggotaCreateRequest;
 use App\Http\Requests\Anggota\AnggotaUpdateRequest;
-use App\Models\Anggota;
-use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
 {
@@ -103,5 +105,34 @@ class AnggotaController extends Controller
         return redirect()
             ->route('anggotas.index')
             ->with('success', 'Data anggota berhasil di hapus');
+    }
+    public function import(Request $request)
+    {
+        // validasi
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+        // menangkap file excel
+        $file = $request->file('file');
+        // membuat nama file unik
+        $nama_file = $file->getClientOriginalName();
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('data_siswa', $nama_file);
+        // import data
+        Excel::import(new SiswaImport, public_path('/data_siswa/' . $nama_file));
+        // Excel::import(new UsersImport, $file);
+        // alihkan halaman kembali
+        return redirect('/anggotas')->with('success', 'Berhasil Mengimport Data Siswa');
+        // dd($nama_file);
+    }
+
+    public function deleteAll()
+    {
+
+        Anggota::where('id', 'like', '%%')->delete();
+
+        return redirect()
+            ->route('anggotas.index')
+            ->with('delete', 'Semua data anggota berhasil di hapus');
     }
 }

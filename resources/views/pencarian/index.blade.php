@@ -35,7 +35,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Judul</th>
-                    <th scope="col">Tingkat</th>
+                    <th scope="col">Kode Buku</th>
                     <th scope="col">Penerbit</th>
                     <th scope="col">Tahun terbit</th>
                     <th scope="col">Stok</th>
@@ -46,7 +46,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $cb->judul }}</td>
-                        <td>{{ $cb->tingkat }}</td>
+                        <td>{{ $cb->kode_buku }}</td>
                         <td>{{ $cb->penerbit }}</td>
                         <td>{{ $cb->tahun_terbit }}</td>
                         <td>{{ $cb->stok_buku }}</td>

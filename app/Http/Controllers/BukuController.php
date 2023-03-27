@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Buku\BukuCreateRequest;
 use App\Http\Requests\Buku\BukuUpdateRequest;
+use App\Imports\BukuImport;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BukuController extends Controller
 {
@@ -110,7 +112,32 @@ class BukuController extends Controller
             ->route('bukus.index')
             ->with('success', 'Data buku berhasil di hapus');
     }
-    public function PrinttoPDFCAR()
+
+    public function importBuku(Request $request)
     {
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+        // menangkap file excel
+        $file = $request->file('file');
+        // membuat nama file unik
+        $nama_file = $file->getClientOriginalName();
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('data_buku', $nama_file);
+        // import data
+        Excel::import(new BukuImport, public_path('/data_buku/' . $nama_file));
+        // Excel::import(new UsersImport, $file);
+        // alihkan halaman kembali
+        return redirect('/bukus')->with('success', 'Berhasil Mengimport Data Siswa');
+        // dd($nama_file);
+    }
+
+    public function deleteBook()
+    {
+        Buku::where('id', 'like', '%%')->delete();
+
+        return redirect()
+            ->route('bukus.index')
+            ->with('delete', 'Semua data buku berhasil di hapus');
     }
 }

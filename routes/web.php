@@ -51,7 +51,10 @@ Route::get('/tes', function () {
     //     ['tgl_pinjam', '>=', $tgl_awal],
     //     ['tgl_pinjam', '<=', $tgl_akhir]
     // ])->get();
-    $tes=auth()->users()->password;
+    $tes = Transaksi::where([
+        ['tgl_pinjam', '>=', '2023-03-01'],
+        ['tgl_pinjam', '<=', '2023-03-22']
+    ])->pluck('denda');
     return response()->json($tes);
 });
 
@@ -112,6 +115,7 @@ Route::resource('/anggotas', AnggotaController::class)->middleware('auth');
 
 
 
+
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
@@ -134,3 +138,11 @@ Route::post('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('
 
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
 Route::get('/laporan/export', [LaporanController::class, 'export'])->name('export');
+Route::post('/anggota/import', [AnggotaController::class, 'import'])->name('import');
+
+
+Route::get('/anggota/deleteAll', [AnggotaController::class, 'deleteAll'])->name('deleteAll');
+Route::get('/buku/deleteBook', [BukuController::class, 'deleteBook'])->name('deleteBook');
+
+
+Route::post('/buku/importBuku', [BukuController::class, 'importBuku'])->name('importBuku');
